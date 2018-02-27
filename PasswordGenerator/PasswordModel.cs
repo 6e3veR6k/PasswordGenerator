@@ -1,0 +1,7 @@
+﻿namespace PasswordGenerator
+{
+    public class PasswordModel
+    {
+        public string Password { get; set; }
+    }
+}

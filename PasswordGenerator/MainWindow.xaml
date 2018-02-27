@@ -3,10 +3,85 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:local="clr-namespace:PasswordGenerator"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Icon="Blackvariant-Button-Ui-Requests-14-Cookies.ico"
+        Title="MainWindow" Height="350" Width="380"
+        MaxWidth="380"
+        MinWidth="100">
+    <Window.DataContext>
+        <local:MainWindowViewModel></local:MainWindowViewModel>
+    </Window.DataContext>
     <Grid>
-        
+        <StackPanel Margin="10">
+            <WrapPanel>
+                <TextBox 
+                    Width="100"
+                    Margin="10,0"
+                    VerticalAlignment="Center" 
+                    materialDesign:HintAssist.Hint="Длина пароля"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="PasswordLength" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:StringToIntValidationRule ValidationStep="RawProposedValue" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                    </TextBox>
+                <TextBox 
+                    Width="100"
+                    Margin="10,0"
+                    VerticalAlignment="Center" 
+                    materialDesign:HintAssist.Hint="Количество паролей"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Count" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:StringToIntValidationRule ValidationStep="RawProposedValue" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                    </TextBox>
+                <StackPanel
+                    Margin="10, 10">
+                    <Label FontSize="12">
+                        Простой
+                    </Label>
+                    <ToggleButton
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                        IsChecked="{Binding PasswordCompl, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="Default ToggleButton Style" />
+                </StackPanel>
+            </WrapPanel>
+
+            <DataGrid
+                Grid.Column="0"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                AutoGenerateColumns="False"
+                Margin="10,8,10,0"
+                CanUserAddRows="False"
+                materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+                ItemsSource="{Binding Passwords}">
+                <DataGrid.Columns>
+                    <materialDesign:MaterialDataGridTextColumn 
+                        Binding="{Binding Password}"
+                        Header="Passwords" 
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid> 
+        </StackPanel>
     </Grid>
 </Window>
